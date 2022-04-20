@@ -20,19 +20,15 @@ public class AdvancedExceptions {
      */
     public static int numberOfLinesInFile(String filename) throws IOException {
         int numberOfLinesInFile;
-        SomeResource someResource = null;
-        try {
-            someResource = new SomeResource();
+        // 2. SomeResource may be used as a resource in try-with-resources
+        try (SomeResource someResource = new SomeResource()) {
             numberOfLinesInFile = someResource.numberOfLinesInFile(filename);
-        } finally {
-            if (someResource != null) {
-                someResource.close();
-            }
         }
         return numberOfLinesInFile;
     }
 
-    private static class SomeResource {
+    // 1. This class should implement interface AutoCloseable
+    private static class SomeResource implements AutoCloseable {
 
         private BufferedReader nbr = null;
 
